@@ -14,8 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+# from django.conf.urls import url, include
+from rest_framework import routers
+from notes.api import NoteViewset, PersonalNoteViewset
+from bookmarks.api import BookmarkViewSet, PrivateBookmarkViewSet
+
+router = routers.DefaultRouter()
+router.register(r'notes', NoteViewset)
+router.register(r'personal_notes', PersonalNoteViewset)
+router.register(r'bookmarks', BookmarkViewSet)
+router.register(r'private_bookmarks', PrivateBookmarkViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(r'api/', include(router.urls)),
 ]
